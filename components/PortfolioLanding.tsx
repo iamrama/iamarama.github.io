@@ -129,7 +129,8 @@ export default function PortfolioLanding() {
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                 <Link
                   href="#projects"
-                  className="inline-flex items-center justify-center rounded-full bg-[#2245c4] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1b37a2]"
+                  className="inline-flex items-center justify-center rounded-full bg-[#2245c4] px-6 py-3 text-sm font-semibold transition hover:bg-[#1b37a2]"
+                  style={{ color: '#ffffff' }}
                 >
                   View Projects
                 </Link>
