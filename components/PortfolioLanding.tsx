@@ -119,7 +119,11 @@ export default function PortfolioLanding() {
       </div>
 
       {/* Right-side section dot indicator */}
-      <nav className="fixed right-5 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-3 lg:flex" aria-label="Section navigation">
+      <nav
+        className="fixed top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-3 rounded-full border border-[#d8c4aa] bg-[#f8efe2]/88 px-3 py-4 shadow-[0_18px_50px_rgba(88,66,40,0.14)] backdrop-blur-md lg:flex"
+        style={{ right: '3.25rem' }}
+        aria-label="Section navigation"
+      >
         {NAV_SECTIONS.map(({ id, label }) => (
           <button
             key={id}
@@ -137,9 +141,9 @@ export default function PortfolioLanding() {
               whileHover={{ scale: 1.4 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="block rounded-full"
-              style={{ width: activeSection === id ? 10 : 7, height: activeSection === id ? 10 : 7 }}
+              style={{ width: activeSection === id ? 9 : 6, height: activeSection === id ? 9 : 6 }}
             />
-            <span className="pointer-events-none absolute right-6 whitespace-nowrap rounded-md border border-[#d8c4aa] bg-[#f6ecdf] px-2 py-0.5 text-[11px] font-medium text-[#5f503d] opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
+            <span className="pointer-events-none absolute right-8 whitespace-nowrap rounded-md border border-[#d8c4aa] bg-[#f6ecdf] px-2 py-0.5 text-[11px] font-medium text-[#5f503d] opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
               {label}
             </span>
           </button>
