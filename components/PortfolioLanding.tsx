@@ -16,15 +16,24 @@ import {
 
 const reveal = {
   hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
 };
 
 const stagger = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.09,
     },
+  },
+};
+
+const sectionEnter = {
+  hidden: { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: 'easeOut' as const, staggerChildren: 0.09, when: 'beforeChildren' as const },
   },
 };
 
@@ -40,9 +49,21 @@ function SectionHeading({ eyebrow, title, copy }: { eyebrow: string; title: stri
   );
 }
 
+const NAV_SECTIONS = [
+  { id: 'home', label: 'Home' },
+  { id: 'stats', label: 'Stats' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'ux-showcase', label: 'UX' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'about', label: 'About' },
+  { id: 'services', label: 'Services' },
+  { id: 'contact', label: 'Contact' },
+];
+
 export default function PortfolioLanding() {
   const [isMoreProjectsOpen, setIsMoreProjectsOpen] = useState(false);
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const [activeSection, setActiveSection] = useState('home');
   const sectionRefs = useRef<Array<HTMLElement | null>>([]);
   const { scrollYProgress } = useScroll();
   const scrollProgress = useSpring(scrollYProgress, {
@@ -63,6 +84,21 @@ export default function PortfolioLanding() {
     };
   }, [isMoreProjectsOpen]);
 
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    NAV_SECTIONS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
+        { threshold: 0.4 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
   const scrollToProject = (index: number) => {
     const target = sectionRefs.current[index];
     if (!target) {
@@ -81,6 +117,34 @@ export default function PortfolioLanding() {
       <div className="pointer-events-none absolute inset-0">
         <div className="grid-lines absolute inset-x-0 top-0 h-128" />
       </div>
+
+      {/* Right-side section dot indicator */}
+      <nav className="fixed right-5 top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-3 lg:flex" aria-label="Section navigation">
+        {NAV_SECTIONS.map(({ id, label }) => (
+          <button
+            key={id}
+            type="button"
+            aria-label={label}
+            title={label}
+            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })}
+            className="group relative flex items-center justify-center"
+          >
+            <motion.span
+              animate={activeSection === id
+                ? { scale: 1, backgroundColor: '#2245c4' }
+                : { scale: 1, backgroundColor: 'rgba(121,94,62,0.35)' }
+              }
+              whileHover={{ scale: 1.4 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="block rounded-full"
+              style={{ width: activeSection === id ? 10 : 7, height: activeSection === id ? 10 : 7 }}
+            />
+            <span className="pointer-events-none absolute right-6 whitespace-nowrap rounded-md border border-[#d8c4aa] bg-[#f6ecdf] px-2 py-0.5 text-[11px] font-medium text-[#5f503d] opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
+              {label}
+            </span>
+          </button>
+        ))}
+      </nav>
 
       <nav className="sticky top-0 z-50 border-b border-[#d8c4aa] bg-[#f8efe2]/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
@@ -102,7 +166,13 @@ export default function PortfolioLanding() {
         </div>
       </nav>
 
-      <section id="home" className="relative bg-transparent px-6 pb-20 pt-14 lg:px-8 lg:pb-28 lg:pt-20">
+      <motion.section
+        id="home"
+        className="relative bg-transparent px-6 pb-20 pt-14 lg:px-8 lg:pb-28 lg:pt-20"
+        variants={sectionEnter}
+        initial="hidden"
+        animate="visible"
+      >
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <motion.div
             variants={stagger}
@@ -216,33 +286,39 @@ export default function PortfolioLanding() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       <motion.section
         id="stats"
         className="scroll-mt-24 px-6 py-10 lg:px-8"
+        variants={sectionEnter}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.25 }}
-        variants={stagger}
+        viewport={{ once: true, amount: 0.2 }}
       >
-        <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
+        <motion.div
+          className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {credibilityStats.map((stat) => (
             <motion.div key={stat.label} variants={reveal} className="section-shell rounded-[1.75rem] p-6">
               <p className="text-4xl font-semibold text-white">{stat.value}</p>
               <p className="mt-3 text-sm leading-6 text-slate-400">{stat.label}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.section>
 
       <motion.section
         id="projects"
         className="scroll-mt-24 px-6 py-16 lg:px-8"
+        variants={sectionEnter}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-        variants={stagger}
+        viewport={{ once: true, amount: 0.2 }}
       >
         <div className="mx-auto max-w-7xl space-y-10">
           <SectionHeading
@@ -315,10 +391,10 @@ export default function PortfolioLanding() {
       <motion.section
         id="ux-showcase"
         className="scroll-mt-24 px-6 py-16 lg:px-8"
+        variants={sectionEnter}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        variants={stagger}
       >
         <div className="mx-auto max-w-7xl space-y-10">
           <SectionHeading
@@ -361,10 +437,10 @@ export default function PortfolioLanding() {
       <motion.section
         id="skills"
         className="scroll-mt-24 px-6 py-16 lg:px-8"
+        variants={sectionEnter}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        variants={stagger}
       >
         <div className="mx-auto max-w-7xl space-y-10">
           <SectionHeading
@@ -392,10 +468,10 @@ export default function PortfolioLanding() {
       <motion.section
         id="about"
         className="scroll-mt-24 px-6 py-16 lg:px-8"
+        variants={sectionEnter}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        variants={stagger}
       >
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1fr_1.1fr]">
           <motion.div variants={reveal} className="section-shell rounded-4xl p-6 lg:p-8">
@@ -425,10 +501,10 @@ export default function PortfolioLanding() {
       <motion.section
         id="services"
         className="scroll-mt-24 px-6 py-16 lg:px-8"
+        variants={sectionEnter}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        variants={stagger}
       >
         <div className="mx-auto max-w-7xl space-y-10">
           <SectionHeading
@@ -452,10 +528,10 @@ export default function PortfolioLanding() {
       <motion.section
         id="contact"
         className="scroll-mt-24 px-6 pb-24 pt-16 lg:px-8"
+        variants={sectionEnter}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        variants={stagger}
       >
         <div className="mx-auto max-w-7xl rounded-4xl border border-[#d8c4aa] bg-[#f6ecdf] p-8 shadow-[0_24px_90px_rgba(88,66,40,0.16)] lg:p-10">
           <motion.div variants={reveal} className="grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-end">
@@ -523,7 +599,7 @@ export default function PortfolioLanding() {
                   </button>
                 </div>
 
-                <div className="relative flex-1 overflow-y-auto px-0 pb-4">
+                <div className="relative flex-1 overflow-x-hidden overflow-y-auto px-0 pb-4">
                   <div className="snap-y snap-mandatory">
                     {moreProjects.map((project, index) => (
                       <section
@@ -531,7 +607,7 @@ export default function PortfolioLanding() {
                         ref={(el) => {
                           sectionRefs.current[index] = el;
                         }}
-                        className="flex snap-start items-start px-6 py-0 lg:px-8"
+                        className="flex snap-start items-start px-6 py-4 lg:px-8"
                       >
                         <div className="glass-panel w-full rounded-4xl p-8 lg:p-10">
                           <p className="text-xs uppercase tracking-[0.24em] text-cyan-300/80">{project.category}</p>
@@ -563,7 +639,7 @@ export default function PortfolioLanding() {
                         key={item.label}
                         type="button"
                         onClick={() => scrollToProject(item.index)}
-                        className={`truncate border px-1 py-2 text-[11px] font-semibold transition ${
+                        className={`w-full truncate border px-1 py-2 text-[11px] font-semibold transition ${
                           activeProjectIndex === item.index
                             ? 'border-[#2245c4] bg-[#edf1ff] text-[#2245c4]'
                             : 'border-[#d8c4aa] bg-[#efe4d6] text-[#5f503d] hover:border-[#2245c4] hover:bg-[#edf1ff] hover:text-[#2245c4]'
