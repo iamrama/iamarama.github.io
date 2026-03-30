@@ -120,10 +120,13 @@ export default function PortfolioLanding() {
 
       {/* Right-side section dot indicator */}
       <nav
-        className="fixed top-1/2 z-50 hidden -translate-y-1/2 flex-col items-center gap-3 rounded-full border border-[#d8c4aa] bg-[#f8efe2]/88 px-3 py-4 shadow-[0_18px_50px_rgba(88,66,40,0.14)] backdrop-blur-md lg:flex"
-        style={{ right: '3.25rem' }}
+        className="fixed top-1/2 z-50 hidden w-24 -translate-y-1/2 rounded-3xl border border-[#d8c4aa] bg-[#f8efe2]/96 px-3 py-4 shadow-[0_20px_60px_rgba(88,66,40,0.16)] backdrop-blur-md lg:flex lg:flex-col"
+        style={{ right: '4.5rem' }}
         aria-label="Section navigation"
       >
+        <p className="mb-3 text-center text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8a765b]">
+          Sections
+        </p>
         {NAV_SECTIONS.map(({ id, label }) => (
           <button
             key={id}
@@ -131,19 +134,21 @@ export default function PortfolioLanding() {
             aria-label={label}
             title={label}
             onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })}
-            className="group relative flex items-center justify-center"
+            className="group relative flex items-center gap-2 rounded-full px-2 py-1.5 text-left transition hover:bg-[#efe4d6]"
           >
             <motion.span
               animate={activeSection === id
                 ? { scale: 1, backgroundColor: '#2245c4' }
                 : { scale: 1, backgroundColor: 'rgba(121,94,62,0.35)' }
               }
-              whileHover={{ scale: 1.4 }}
+              whileHover={{ scale: 1.2 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="block rounded-full"
-              style={{ width: activeSection === id ? 9 : 6, height: activeSection === id ? 9 : 6 }}
+              className="block shrink-0 rounded-full"
+              style={{ width: activeSection === id ? 10 : 7, height: activeSection === id ? 10 : 7 }}
             />
-            <span className="pointer-events-none absolute right-8 whitespace-nowrap rounded-md border border-[#d8c4aa] bg-[#f6ecdf] px-2 py-0.5 text-[11px] font-medium text-[#5f503d] opacity-0 shadow-sm transition-opacity group-hover:opacity-100">
+            <span className={`text-[11px] font-medium transition ${
+              activeSection === id ? 'text-[#2245c4]' : 'text-[#7d6a53]'
+            }`}>
               {label}
             </span>
           </button>
