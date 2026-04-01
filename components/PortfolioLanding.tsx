@@ -49,21 +49,9 @@ function SectionHeading({ eyebrow, title, copy }: { eyebrow: string; title: stri
   );
 }
 
-const NAV_SECTIONS = [
-  { id: 'home', label: 'Home' },
-  { id: 'stats', label: 'Stats' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'ux-showcase', label: 'UX' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'about', label: 'About' },
-  { id: 'services', label: 'Services' },
-  { id: 'contact', label: 'Contact' },
-];
-
 export default function PortfolioLanding() {
   const [isMoreProjectsOpen, setIsMoreProjectsOpen] = useState(false);
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-  const [activeSection, setActiveSection] = useState('home');
   const sectionRefs = useRef<Array<HTMLElement | null>>([]);
   const { scrollYProgress } = useScroll();
   const scrollProgress = useSpring(scrollYProgress, {
@@ -84,21 +72,6 @@ export default function PortfolioLanding() {
     };
   }, [isMoreProjectsOpen]);
 
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    NAV_SECTIONS.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-        { threshold: 0.4 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach((o) => o.disconnect());
-  }, []);
-
   const scrollToProject = (index: number) => {
     const target = sectionRefs.current[index];
     if (!target) {
@@ -109,51 +82,11 @@ export default function PortfolioLanding() {
   };
 
   return (
-    <main className="sandal-theme relative overflow-x-hidden">
+    <main className="sandal-theme relative w-full max-w-full overflow-x-hidden">
       <motion.div
         className="pointer-events-none fixed left-0 right-0 top-0 z-80 h-1 origin-left bg-[#2245c4]"
         style={{ scaleX: scrollProgress }}
       />
-      <div className="pointer-events-none absolute inset-0">
-        <div className="grid-lines absolute inset-x-0 top-0 h-128" />
-      </div>
-
-      {/* Right-side section dot indicator */}
-      <nav
-        className="fixed top-1/2 z-50 hidden w-24 -translate-y-1/2 rounded-3xl border border-[#d8c4aa] bg-[#f8efe2]/96 px-3 py-4 shadow-[0_20px_60px_rgba(88,66,40,0.16)] backdrop-blur-md lg:flex lg:flex-col"
-        style={{ right: '4.5rem' }}
-        aria-label="Section navigation"
-      >
-        <p className="mb-3 text-center text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8a765b]">
-          Sections
-        </p>
-        {NAV_SECTIONS.map(({ id, label }) => (
-          <button
-            key={id}
-            type="button"
-            aria-label={label}
-            title={label}
-            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })}
-            className="group relative flex items-center gap-2 rounded-full px-2 py-1.5 text-left transition hover:bg-[#efe4d6]"
-          >
-            <motion.span
-              animate={activeSection === id
-                ? { scale: 1, backgroundColor: '#2245c4' }
-                : { scale: 1, backgroundColor: 'rgba(121,94,62,0.35)' }
-              }
-              whileHover={{ scale: 1.2 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-              className="block shrink-0 rounded-full"
-              style={{ width: activeSection === id ? 10 : 7, height: activeSection === id ? 10 : 7 }}
-            />
-            <span className={`text-[11px] font-medium transition ${
-              activeSection === id ? 'text-[#2245c4]' : 'text-[#7d6a53]'
-            }`}>
-              {label}
-            </span>
-          </button>
-        ))}
-      </nav>
 
       <nav className="sticky top-0 z-50 border-b border-[#d8c4aa] bg-[#f8efe2]/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
@@ -224,12 +157,12 @@ export default function PortfolioLanding() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: 'easeOut' }}
-            className="relative"
+            className="relative overflow-hidden rounded-4xl"
           >
-            <div className="absolute inset-0 rounded-4xl bg-indigo-500/10 blur-3xl" />
+            <div aria-hidden="true" className="absolute inset-0 rounded-4xl bg-indigo-500/10 blur-3xl" />
             <div className="glass-panel relative overflow-hidden rounded-4xl p-6">
               <div className="mb-5 flex items-center justify-between">
                 <div>
