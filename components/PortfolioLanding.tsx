@@ -66,8 +66,11 @@ export default function PortfolioLanding() {
   }));
 
   useEffect(() => {
+    const html = document.documentElement;
+    html.style.overflow = isMoreProjectsOpen ? 'hidden' : '';
     document.body.style.overflow = isMoreProjectsOpen ? 'hidden' : '';
     return () => {
+      html.style.overflow = '';
       document.body.style.overflow = '';
     };
   }, [isMoreProjectsOpen]);
@@ -84,7 +87,7 @@ export default function PortfolioLanding() {
   return (
     <main className="sandal-theme relative w-full max-w-full overflow-x-hidden">
       <motion.div
-        className="pointer-events-none fixed left-0 right-0 top-0 z-80 h-1 origin-left bg-[#2245c4]"
+        className="pointer-events-none fixed left-0 right-0 top-0 z-100 h-1.5 origin-left bg-[#2245c4] shadow-[0_0_14px_rgba(34,69,196,0.45)]"
         style={{ scaleX: scrollProgress }}
       />
 
