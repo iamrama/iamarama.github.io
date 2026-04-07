@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
-import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   contactLinks,
   credibilityStats,
@@ -53,44 +53,23 @@ export default function PortfolioLanding() {
   const [isMoreProjectsOpen, setIsMoreProjectsOpen] = useState(false);
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const sectionRefs = useRef<Array<HTMLElement | null>>([]);
-  const { scrollYProgress } = useScroll();
-  const scrollProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 32,
-    restDelta: 0.001,
-  });
 
   const projectNavItems = moreProjects.map((project, index) => ({
     index,
     label: project.title,
   }));
 
-  useEffect(() => {
-    const html = document.documentElement;
-    html.style.overflow = isMoreProjectsOpen ? 'hidden' : '';
-    document.body.style.overflow = isMoreProjectsOpen ? 'hidden' : '';
-    return () => {
-      html.style.overflow = '';
-      document.body.style.overflow = '';
-    };
-  }, [isMoreProjectsOpen]);
-
   const scrollToProject = (index: number) => {
     const target = sectionRefs.current[index];
     if (!target) {
       return;
     }
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    target.scrollIntoView({ behavior: 'auto', block: 'start' });
     setActiveProjectIndex(index);
   };
 
   return (
     <main className="sandal-theme relative w-full max-w-full overflow-x-hidden">
-      <motion.div
-        className="pointer-events-none fixed left-0 right-0 top-0 z-100 h-1.5 origin-left bg-[#2245c4] shadow-[0_0_14px_rgba(34,69,196,0.45)]"
-        style={{ scaleX: scrollProgress }}
-      />
-
       <nav className="sticky top-0 z-50 border-b border-[#d8c4aa] bg-[#f8efe2]/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <Link href="/" className="font-(family-name:--font-space-grotesk) text-lg font-semibold tracking-wide text-white">
@@ -545,14 +524,14 @@ export default function PortfolioLanding() {
                 </div>
 
                 <div className="relative flex-1 overflow-x-hidden overflow-y-auto px-0 pb-4">
-                  <div className="snap-y snap-mandatory">
+                  <div>
                     {moreProjects.map((project, index) => (
                       <section
                         key={project.title}
                         ref={(el) => {
                           sectionRefs.current[index] = el;
                         }}
-                        className="flex snap-start items-start px-6 py-4 lg:px-8"
+                        className="flex items-start px-6 py-4 lg:px-8"
                       >
                         <div className="glass-panel w-full rounded-4xl p-8 lg:p-10">
                           <p className="text-xs uppercase tracking-[0.24em] text-cyan-300/80">{project.category}</p>
