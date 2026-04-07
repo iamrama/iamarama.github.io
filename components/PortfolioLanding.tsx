@@ -69,7 +69,7 @@ export default function PortfolioLanding() {
   };
 
   return (
-    <main className="sandal-theme relative w-full max-w-full overflow-x-hidden">
+    <main className="sandal-theme relative h-screen w-full max-w-full overflow-x-hidden overflow-y-auto">
       <nav className="sticky top-0 z-50 border-b border-[#d8c4aa] bg-[#f8efe2]/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <Link href="/" className="font-(family-name:--font-space-grotesk) text-lg font-semibold tracking-wide text-white">
@@ -97,27 +97,27 @@ export default function PortfolioLanding() {
         initial="hidden"
         animate="visible"
       >
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div className="mx-auto max-w-7xl">
           <motion.div
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="space-y-8"
+            className="max-w-5xl space-y-8"
           >
             <motion.div variants={reveal} className="glass-panel inline-flex rounded-full px-4 py-2 text-sm text-slate-200">
               {profile.role}
             </motion.div>
-            <motion.div variants={reveal} className="glass-panel rounded-4xl p-7 md:p-10">
+            <motion.div variants={reveal} className="space-y-0">
               <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-[#2245c4]">
                 Mobile strategy, UX thinking, production delivery
               </p>
-              <h1 className="max-w-4xl font-(family-name:--font-space-grotesk) text-5xl font-semibold leading-[1.02] tracking-tight text-white md:text-7xl">
+              <h1 className="max-w-5xl font-(family-name:--font-space-grotesk) text-5xl font-semibold leading-[1.02] tracking-tight text-white md:text-7xl">
                 <span className="text-[#2245c4]">{profile.headline}</span>
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
+              <p className="mt-6 max-w-4xl text-lg leading-8 text-slate-300 md:text-xl">
                 {profile.intro}
               </p>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-400">
+              <p className="mt-4 max-w-4xl text-base leading-7 text-slate-400">
                 {profile.supporting}
               </p>
               <div className="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -136,78 +136,6 @@ export default function PortfolioLanding() {
                 </Link>
               </div>
             </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: 'easeOut' }}
-            className="relative overflow-hidden rounded-4xl"
-          >
-            <div aria-hidden="true" className="absolute inset-0 rounded-4xl bg-indigo-500/10 blur-3xl" />
-            <div className="glass-panel relative overflow-hidden rounded-4xl p-6">
-              <div className="mb-5 flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-200">Animated UI Mock</p>
-                  <p className="text-sm text-slate-400">Discovery to production view</p>
-                </div>
-                <div className="flex gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-rose-300/70" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-amber-300/70" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-300/70" />
-                </div>
-              </div>
-              <div className="grid gap-5 md:grid-cols-[0.8fr_1fr]">
-                <motion.div
-                  className="phone-frame rounded-4xl border border-white/12 bg-slate-950/90 p-4"
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 5.5, repeat: Number.POSITIVE_INFINITY, ease: 'easeInOut' }}
-                >
-                  <div className="mb-4 rounded-2xl bg-white/6 p-4">
-                    <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Today</p>
-                    <p className="mt-2 text-sm font-medium text-white">Triage priority tasks before 9:30 AM</p>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="rounded-2xl border border-[#2245c4]/20 bg-[#2245c4]/10 p-4">
-                      <p className="text-xs uppercase tracking-[0.24em] text-[#2245c4]">UX flow</p>
-                      <p className="mt-2 text-sm text-white">One-thumb capture with progressive details</p>
-                    </div>
-                    <div className="rounded-2xl border border-white/10 bg-white/6 p-4">
-                      <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Impact</p>
-                      <p className="mt-2 text-sm text-white">Fewer taps, faster completion, clearer next actions</p>
-                    </div>
-                  </div>
-                </motion.div>
-                <div className="space-y-4">
-                  <div className="rounded-[1.75rem] border border-[#d8c4aa] bg-[#f6ecdf] p-5">
-                    <div className="flex items-center justify-between text-sm text-slate-400">
-                      <span>Case study map</span>
-                      <span>Problem to result</span>
-                    </div>
-                    <div className="mt-4 grid gap-3">
-                      {['Research', 'Wireframes', 'Design system', 'Release plan'].map((item) => (
-                        <div key={item} className="rounded-2xl border border-[#d8c4aa] bg-[#efe4d6] px-4 py-3 text-sm text-[#5f503d]">
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="rounded-[1.75rem] border border-white/12 bg-[#f4ebdc] p-5">
-                    <p className="text-sm text-slate-300">Built for teams that need both product clarity and engineering reliability.</p>
-                    <div className="mt-4 grid grid-cols-2 gap-3 text-left">
-                      <div className="rounded-2xl bg-slate-950/70 p-4">
-                        <p className="text-2xl font-semibold text-white">UX</p>
-                        <p className="mt-1 text-sm text-slate-400">flows, wireframes, testing</p>
-                      </div>
-                      <div className="rounded-2xl bg-slate-950/70 p-4">
-                        <p className="text-2xl font-semibold text-white">Code</p>
-                        <p className="mt-1 text-sm text-slate-400">architecture, delivery, impact</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
       </motion.section>
