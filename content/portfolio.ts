@@ -59,7 +59,7 @@ export const credibilityStats: Metric[] = [
     label: 'Years shipping mobile products across B2B and consumer apps',
   },
   {
-    value: '24',
+    value: '25+',
     label: 'Apps launched, rebuilt, or scaled with production teams',
   },
   {
@@ -325,6 +325,76 @@ export const featuredProjects: ProjectCaseStudy[] = [
 
 export const moreProjects: MoreProject[] = [
   {
+    title: 'MDU-One Home app',
+    category: 'Utility',
+    note: 'Home-focused mobile workflows with stable production delivery.',
+  },
+  {
+    title: 'Profile Manager SDK',
+    category: 'SDK',
+    note: 'Reusable profile management capabilities packaged for product teams.',
+  },
+  {
+    title: 'Smart Rio ERP App',
+    category: 'ERP',
+    note: 'Flutter-based enterprise app for operations and workflow management.',
+  },
+  {
+    title: 'Prooptics',
+    category: 'Business',
+    note: 'Mobile product experience for optical/business service operations.',
+  },
+  {
+    title: 'Power IQ',
+    category: 'Enterprise',
+    note: 'Xamarin.Forms app delivery with reliability and UX focus.',
+  },
+  {
+    title: 'Mage 2 Mobile',
+    category: 'Native Android',
+    note: 'Native Android app implementation with production-first architecture.',
+  },
+  {
+    title: 'Farm fresh',
+    category: 'Native Android',
+    note: 'Native Android commerce and ordering user flow delivery.',
+  },
+  {
+    title: 'Staybula',
+    category: 'Native Android',
+    note: 'Native Android booking and hospitality product development.',
+  },
+  {
+    title: 'The Independent SG',
+    category: 'Native Android',
+    note: 'Native Android news/content app delivery and optimization.',
+  },
+  {
+    title: 'Smart eagles',
+    category: 'Native Android',
+    note: 'Native Android implementation tailored for business workflows.',
+  },
+  {
+    title: 'Zambia Reports',
+    category: 'Native Android',
+    note: 'Native Android report-focused app for field and desk teams.',
+  },
+  {
+    title: 'FreeOpenVPN',
+    category: 'Native Android',
+    note: 'Native Android network utility app with smooth UX interactions.',
+  },
+  {
+    title: 'Cook a curry',
+    category: 'Native Android',
+    note: 'Native Android recipe and cooking content experience.',
+  },
+  {
+    title: 'Thirukkural Ulaga Podhu Marai',
+    category: 'Native Android',
+    note: 'Native Android educational and literary app delivery.',
+  },
+  {
     title: 'Sathiyam TV',
     category: 'Media',
     note: 'Native Android streaming app delivery with UX and performance tuning.',
@@ -456,6 +526,7 @@ export const contactLinks = [
     href: 'https://www.linkedin.com/in/ramakrishnan-lakshmana-perumal-2ba9a4aa/',
   },
   { label: 'GitHub', href: 'https://github.com/iamrama' },
+  { label: 'Medium', href: 'https://medium.com/@rk27' },
 ];
 
 export function getProjectBySlug(slug: string) {
